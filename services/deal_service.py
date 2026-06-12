@@ -3,7 +3,7 @@ from database.models import TravelDeal
 from utils.validators import validate_deal
 
 
-# Create a deal function
+# Create a travel deal function
 def create_deal(data):
     errors = validate_deal(data)
 
@@ -28,7 +28,7 @@ def create_deal(data):
     }, 201
 
 
-# Get all deals function
+# Get all travel deals function
 def get_all_deals():
     travel_deals = TravelDeal.query.all()
 
@@ -39,4 +39,18 @@ def get_all_deals():
             "count": len(travel_deals),
             "travel_deals": [travel_deal.to_dict() for travel_deal in travel_deals],
         },
+    }, 200
+
+
+# Get a single travel deal function
+def get_single_deal(deal_id):
+    travel_deal = TravelDeal.query.get(deal_id)
+
+    if not travel_deal:
+        return {"success": False, "message": "Travel deal not found"}, 404
+
+    return {
+        "success": True,
+        "message": "Travel deal retrieved successfully",
+        "data": travel_deal.to_dict(),
     }, 200
