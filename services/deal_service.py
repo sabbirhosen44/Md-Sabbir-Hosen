@@ -8,7 +8,11 @@ def create_deal(data):
     errors = validate_deal(data)
 
     if errors:
-        return ({"success": False, "errors": errors}, 400)
+        return {
+            "success": False,
+            "message": "Validation failed",
+            "data": {"errors": errors},
+        }, 400
 
     travel_deal = TravelDeal(
         destination=data["destination"],
