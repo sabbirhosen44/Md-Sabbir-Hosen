@@ -30,7 +30,7 @@ app.register_blueprint(deal_bp)
 # Health Status Check
 @app.route("/")
 def health():
-    return {"message": "Travel Deal Management API is running"}
+    return {"success": True, "message": "Travel Deal Management API is running"}
 
 
 if __name__ == "__main__":
