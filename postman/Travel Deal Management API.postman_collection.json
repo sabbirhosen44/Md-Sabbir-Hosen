@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "5615074f-46ca-43c4-a09e-a894f9ea7255",
+		"name": "Travel Deal Management API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "54940967",
+		"_collection_link": "https://sabbirhosen-pstu-800085.postman.co/workspace/Sabbir-Hosen's-Workspace~e47e5a91-dc32-4228-88e2-a9873fe5aa45/collection/54940967-5615074f-46ca-43c4-a09e-a894f9ea7255?action=share&source=collection_link&creator=54940967"
+	},
+	"item": [
+		{
+			"name": "Add Deal",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Chittagong\",\n    \"price\": 3000.0,\n    \"platform\": \"TravelAgency\",\n    \"travel_type\": \"Budget\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/deals",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"deals"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health Status Check",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Chittagong\",\n    \"price\": 3000.0,\n    \"platform\": \"TravelAgency\",\n    \"travel_type\": \"Budget\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
