@@ -2,9 +2,9 @@
 
 ## Overview
 
-Travel Deal Management API is a RESTful backend application built with Flask that allows users to create and retrieve travel deals.
+Travel Deal Management API is a RESTful backend application built with Flask that allows users to create, search, filter, sort, and retrieve travel deals.
 
-The application follows a modular architecture with separate layers for routes, services, validation, and database operations.
+The application follows a modular architecture with separate layers for routes, services, validation, logging, and database operations.
 
 ---
 
@@ -83,7 +83,7 @@ The Postman collection for testing all API endpoints is included in the reposito
 
 ### Collection File
 
-[Travel Deal Management API.postman_collection.json](https://github.com/sabbirhosen44/Travel-Deal-Management-System/blob/main/postman/Travel%20Deal%20Management%20API.postman_collection.json)
+https://github.com/sabbirhosen44/Travel-Deal-Management-System/blob/main/postman/Travel%20Deal%20Management%20API.postman_collection.json
 
 ### Import into Postman
 
@@ -109,31 +109,114 @@ The Postman collection for testing all API endpoints is included in the reposito
 
 **GET** `/deals/<id>`
 
+### Search Travel Deals
+
+**GET** `/deals/search`
+
+Example:
+
+```http
+/deals/search?destination=dubai
+```
+
+### Filter Travel Deals
+
+**GET** `/deals/filter`
+
+Example:
+
+```http
+/deals/filter?min_price=1000&max_price=5000
+```
+
+### Sort Travel Deals
+
+**GET** `/deals/sort`
+
+Example:
+
+```http
+/deals/sort?sort_by=price&order=asc
+```
+
+### Recently Viewed Deals
+
+**GET** `/deals/recent`
+
 ---
 
 ## Validation Rules
+
+### Travel Deal Validation
 
 - destination cannot be empty
 - price must be positive
 - rating must be between 1 and 5
 - travel_type must be one of:
+
   - Budget
   - Luxury
   - Adventure
   - Family
+
+### Search Validation
+
+- At least one search parameter is required
+- travel_type must be valid
+
+### Filter Validation
+
+- min_price must be a number
+- max_price must be a number
+- min_price cannot be negative
+- max_price cannot be smaller than min_price
+
+### Sort Validation
+
+- sort_by must be `price`
+- order must be `asc` or `desc`
+
+---
+
+## Logging
+
+Application logs are stored in:
+
+```text
+logs/app.log
+```
+
+Tracked events:
+
+- Successful operations
+- Search requests
+- Invalid requests
+- Failed requests
+- Recently viewed deal activities
 
 ---
 
 ## Project Structure
 
 ```text
-travel-deal-api/
+Travel-Deal-Management-System/
 │
 ├── app.py
 ├── routes/
+│   └── deal_routes.py
 ├── services/
+│   └── deal_service.py
 ├── utils/
+│   ├── validators.py
+│   └── logger.py
 ├── database/
+│   ├── db.py
+│   └── models.py
+├── logs/
+│   ├── .gitkeep
+│   └── app.log
+├── postman/
+│   └── Travel Deal Management API.postman_collection.json
 ├── .env
 ├── .gitignore
 ├── requirements.txt

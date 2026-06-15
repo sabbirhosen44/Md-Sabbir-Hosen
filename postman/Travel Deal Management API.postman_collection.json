@@ -14,7 +14,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"destination\": \"Chittagong\",\n    \"price\": 3000.0,\n    \"platform\": \"TravelAgency\",\n    \"travel_type\": \"Budget\"\n}",
+					"raw": "{\n    \"destination\": \"Costa Rica\",\n    \"price\": 2100.00,\n    \"platform\": \"AdventureHub\",\n    \"rating\": 5,\n    \"travel_type\": \"Adventure\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -84,7 +84,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/deals/1",
+					"raw": "http://localhost:5000/deals/6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -92,7 +92,173 @@
 					"port": "5000",
 					"path": [
 						"deals",
-						"1"
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Travel Deals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Chittagong\",\n    \"price\": 3000.0,\n    \"platform\": \"TravelAgency\",\n    \"travel_type\": \"Budget\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/deals/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"search"
+					],
+					"query": [
+						{
+							"key": "travel_type",
+							"value": "luxury",
+							"disabled": true
+						},
+						{
+							"key": "destination",
+							"value": "Bali",
+							"disabled": true
+						},
+						{
+							"key": "platform",
+							"value": "Booking.com",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Filter Travel Deals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Chittagong\",\n    \"price\": 3000.0,\n    \"platform\": \"TravelAgency\",\n    \"travel_type\": \"Budget\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/deals/filter?max_price=4000&min_price=1000",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "max_price",
+							"value": "4000"
+						},
+						{
+							"key": "min_price",
+							"value": "1000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Recent Viewed Deals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Chittagong\",\n    \"price\": 3000.0,\n    \"platform\": \"TravelAgency\",\n    \"travel_type\": \"Budget\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/deals/recent",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"recent"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Sort Travel Deals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Chittagong\",\n    \"price\": 3000.0,\n    \"platform\": \"TravelAgency\",\n    \"travel_type\": \"Budget\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/deals/sort?sort_by=price",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"sort"
+					],
+					"query": [
+						{
+							"key": "sort_by",
+							"value": "price"
+						},
+						{
+							"key": "order",
+							"value": "desc",
+							"disabled": true
+						}
 					]
 				}
 			},
