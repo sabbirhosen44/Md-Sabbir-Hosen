@@ -16,3 +16,7 @@ instance/*.db
 
 # Environment Variables
 .env
+
+# Log files
+logs/
+*.log
