@@ -2,7 +2,7 @@ TRAVEL_TYPES = ["Budget", "Luxury", "Adventure", "Family"]
 
 
 # Validation function for data
-def validate_deal(data):
+def validate_travel_deal(data):
     errors = []
 
     required_fields = ["destination", "price", "platform", "rating", "travel_type"]
