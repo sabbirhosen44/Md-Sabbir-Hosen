@@ -8,6 +8,7 @@ from utils.validators import (
     validate_sort,
 )
 from utils.logger import logger
+from datetime import datetime
 
 
 # Create a travel deal function
@@ -65,6 +66,12 @@ def get_single_deal(deal_id):
     if not travel_deal:
         logger.error(f"Travel deal not found: {deal_id}")
         return {"success": False, "message": "Travel deal not found"}, 404
+
+    travel_deal.last_viewed_at = datetime.utcnow()
+
+    db.session.commit()
+
+    logger.info(f"Viewed travel deal: {deal_id}")
 
     return {
         "success": True,
@@ -182,6 +189,7 @@ def filter_travel_deals(
     }, 200
 
 
+# Sort travel deals function
 def sort_travel_deals(sort_by, order):
     errors = validate_sort(
         sort_by,
@@ -206,6 +214,27 @@ def sort_travel_deals(sort_by, order):
     return {
         "success": True,
         "message": "Sorting completed successfully",
+        "data": {
+            "count": len(deals),
+            "travel_deals": [deal.to_dict() for deal in deals],
+        },
+    }, 200
+
+
+# Get 5 recent viewed travel deals
+def get_recent_deals():
+    deals = (
+        TravelDeal.query.filter(TravelDeal.last_viewed_at.isnot(None))
+        .order_by(TravelDeal.last_viewed_at.desc())
+        .limit(5)
+        .all()
+    )
+
+    logger.info("Retrieved recently viewed deals")
+
+    return {
+        "success": True,
+        "message": "Recently viewed deals retrieved successfully",
         "data": {
             "count": len(deals),
             "travel_deals": [deal.to_dict() for deal in deals],
