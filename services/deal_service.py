@@ -5,6 +5,7 @@ from utils.validators import (
     validate_price_filter,
     TRAVEL_TYPES,
     normalize_search_param,
+    validate_sort,
 )
 from utils.logger import logger
 
@@ -14,7 +15,7 @@ def create_deal(data):
     errors = validate_travel_deal(data)
 
     if errors:
-        logger.error("Travel deal validation failed")
+        logger.warning("Travel deal validation failed")
         return {
             "success": False,
             "message": "Validation failed",
@@ -174,6 +175,37 @@ def filter_travel_deals(
     return {
         "success": True,
         "message": "Filter completed successfully",
+        "data": {
+            "count": len(deals),
+            "travel_deals": [deal.to_dict() for deal in deals],
+        },
+    }, 200
+
+
+def sort_travel_deals(sort_by, order):
+    errors = validate_sort(
+        sort_by,
+        order,
+    )
+
+    if errors:
+        logger.warning("Invalid sorting request")
+
+        return {
+            "success": False,
+            "message": "Validation failed",
+            "data": {"errors": errors},
+        }, 400
+
+    direction = TravelDeal.price.desc() if order == "desc" else TravelDeal.price.asc()
+
+    deals = TravelDeal.query.order_by(direction).all()
+
+    logger.info("Sorting completed successfully")
+
+    return {
+        "success": True,
+        "message": "Sorting completed successfully",
         "data": {
             "count": len(deals),
             "travel_deals": [deal.to_dict() for deal in deals],

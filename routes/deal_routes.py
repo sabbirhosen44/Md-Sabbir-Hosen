@@ -7,6 +7,7 @@ from services.deal_service import (
     get_single_deal,
     search_travel_deals,
     filter_travel_deals,
+    sort_travel_deals,
 )
 
 deal_bp = Blueprint("deal_bp", __name__)
@@ -58,5 +59,26 @@ def filter_deals():
     max_price = request.args.get("max_price")
 
     response, status = filter_travel_deals(min_price, max_price)
+
+    return jsonify(response), status
+
+
+# Sort travel deals route
+@deal_bp.route(
+    "/deals/sort",
+    methods=["GET"],
+)
+def sort_deals():
+    sort_by = request.args.get("sort_by")
+
+    order = request.args.get(
+        "order",
+        "asc",
+    )
+
+    response, status = sort_travel_deals(
+        sort_by,
+        order,
+    )
 
     return jsonify(response), status

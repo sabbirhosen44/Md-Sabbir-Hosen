@@ -1,5 +1,7 @@
 TRAVEL_TYPES = ["Budget", "Luxury", "Adventure", "Family"]
 
+VALID_SORT_FIELDS = ["price"]
+
 
 # Validation function for data
 def validate_travel_deal(data):
@@ -73,5 +75,24 @@ def validate_price_filter(
 
     if min_price is not None and max_price is not None and max_price < min_price:
         errors.append("maximum price cannot be smaller than minimum price")
+
+    return errors
+
+
+# Validation check function for sort fieldss
+def validate_sort(
+    sort_by,
+    order,
+):
+    errors = []
+
+    if sort_by not in VALID_SORT_FIELDS:
+        errors.append(f"sort_by must be one of {VALID_SORT_FIELDS}")
+
+    if order not in [
+        "asc",
+        "desc",
+    ]:
+        errors.append("order must be asc or desc")
 
     return errors
