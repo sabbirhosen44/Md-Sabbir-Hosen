@@ -29,6 +29,23 @@ def validate_travel_deal(data):
     return errors
 
 
+# Normalize search parameters
+def normalize_search_param(value):
+    if value is None:
+        return None
+
+    value = value.strip()
+
+    if value in [
+        "",
+        '""',
+        "''",
+    ]:
+        return None
+
+    return value
+
+
 # Validation check function for min price and max price
 def validate_price_filter(
     min_price,

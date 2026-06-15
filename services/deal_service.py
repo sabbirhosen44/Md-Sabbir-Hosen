@@ -1,6 +1,11 @@
 from database.db import db
 from database.models import TravelDeal
-from utils.validators import validate_travel_deal, validate_price_filter
+from utils.validators import (
+    validate_travel_deal,
+    validate_price_filter,
+    TRAVEL_TYPES,
+    normalize_search_param,
+)
 from utils.logger import logger
 
 
@@ -67,20 +72,12 @@ def get_single_deal(deal_id):
     }, 200
 
 
-# Search a travel deals function
-def search_travel_deals(destination, platform, travel_type):
-
-    destination = destination.strip() if destination else None
-    platform = platform.strip() if platform else None
-    travel_type = travel_type.strip() if travel_type else None
-
-    if not destination and not platform and not travel_type:
-        logger.warning("Empty search request")
-        return {
-            "success": False,
-            "message": "Provide at least one search parameter",
-        }, 400
-
+# Reusable search query builder
+def build_search_query(
+    destination=None,
+    platform=None,
+    travel_type=None,
+):
     query = TravelDeal.query
 
     if destination:
@@ -92,7 +89,40 @@ def search_travel_deals(destination, platform, travel_type):
     if travel_type:
         query = query.filter(TravelDeal.travel_type.ilike(f"%{travel_type}%"))
 
-    deals = query.all()
+    return query
+
+
+# Search a travel deals function
+def search_travel_deals(destination, platform, travel_type):
+    destination = normalize_search_param(destination)
+
+    platform = normalize_search_param(platform)
+
+    travel_type = normalize_search_param(travel_type)
+
+    if not destination and not platform and not travel_type:
+        logger.warning("Empty search request")
+
+        return {
+            "success": False,
+            "message": "Provide at least one search parameter",
+            "data": None,
+        }, 400
+
+    if travel_type and travel_type.title() not in TRAVEL_TYPES:
+        logger.warning(f"Invalid travel type requested: {travel_type}")
+
+        return {
+            "success": False,
+            "message": f"travel_type must be one of {TRAVEL_TYPES}",
+            "data": None,
+        }, 400
+
+    deals = build_search_query(
+        destination,
+        platform,
+        travel_type,
+    ).all()
 
     logger.info("Search completed successfully")
 
