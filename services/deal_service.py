@@ -1,6 +1,6 @@
 from database.db import db
 from database.models import TravelDeal
-from utils.validators import validate_travel_deal
+from utils.validators import validate_travel_deal, validate_price_filter
 from utils.logger import logger
 
 
@@ -67,7 +67,7 @@ def get_single_deal(deal_id):
     }, 200
 
 
-# Search a travel deals
+# Search a travel deals function
 def search_travel_deals(destination, platform, travel_type):
 
     destination = destination.strip() if destination else None
@@ -99,6 +99,51 @@ def search_travel_deals(destination, platform, travel_type):
     return {
         "success": True,
         "message": "Search completed successfully",
+        "data": {
+            "count": len(deals),
+            "travel_deals": [deal.to_dict() for deal in deals],
+        },
+    }, 200
+
+
+# Filter travel deals by budget function
+def filter_travel_deals(
+    min_price,
+    max_price,
+):
+    errors = validate_price_filter(
+        min_price,
+        max_price,
+    )
+
+    if errors:
+        logger.warning("Invalid filter request")
+
+        return {
+            "success": False,
+            "message": "Validation failed",
+            "data": {"errors": errors},
+        }, 400
+
+    query = TravelDeal.query
+
+    if min_price is not None:
+        min_price = float(min_price)
+
+        query = query.filter(TravelDeal.price >= min_price)
+
+    if max_price is not None:
+        max_price = float(max_price)
+
+        query = query.filter(TravelDeal.price <= max_price)
+
+    deals = query.all()
+
+    logger.info("Filter request completed")
+
+    return {
+        "success": True,
+        "message": "Filter completed successfully",
         "data": {
             "count": len(deals),
             "travel_deals": [deal.to_dict() for deal in deals],

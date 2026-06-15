@@ -27,3 +27,34 @@ def validate_travel_deal(data):
         errors.append(f"travel_type must be one of {TRAVEL_TYPES}")
 
     return errors
+
+
+# Validation check function for min price and max price
+def validate_price_filter(
+    min_price,
+    max_price,
+):
+    errors = []
+
+    try:
+        if min_price is not None:
+            min_price = float(min_price)
+    except ValueError:
+        errors.append("minimum price must be a number")
+
+    try:
+        if max_price is not None:
+            max_price = float(max_price)
+    except ValueError:
+        errors.append("maximum price must be a number")
+
+    if errors:
+        return errors
+
+    if min_price is not None and min_price < 0:
+        errors.append("minimum price cannot be negative")
+
+    if min_price is not None and max_price is not None and max_price < min_price:
+        errors.append("maximum price cannot be smaller than minimum price")
+
+    return errors
