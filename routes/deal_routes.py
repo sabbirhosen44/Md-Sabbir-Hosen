@@ -10,6 +10,7 @@ from services.deal_service import (
     sort_travel_deals,
     get_recent_deals,
     update_deal,
+    delete_deal,
 )
 
 deal_bp = Blueprint("deal_bp", __name__)
@@ -83,7 +84,7 @@ def sort_deals():
     return jsonify(response), status
 
 
-# Get recently viewed deals
+# Get recently viewed deals route
 @deal_bp.route(
     "/deals/recent",
     methods=["GET"],
@@ -94,7 +95,7 @@ def recent_deals():
     return jsonify(response), status
 
 
-# Update a travel deal
+# Update a travel deal route
 @deal_bp.route("/deals/<int:deal_id>", methods=["PUT"])
 def update_travel_deal(deal_id):
     data = request.get_json()
@@ -103,5 +104,13 @@ def update_travel_deal(deal_id):
         deal_id,
         data,
     )
+
+    return jsonify(response), status
+
+
+# Delete a travel deal route
+@deal_bp.route("/deals/<int:deal_id>", methods=["DELETE"])
+def remove_deal(deal_id):
+    response, status = delete_deal(deal_id)
 
     return jsonify(response), status

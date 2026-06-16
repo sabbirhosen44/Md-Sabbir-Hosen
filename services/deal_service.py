@@ -221,7 +221,7 @@ def sort_travel_deals(sort_by, order):
     }, 200
 
 
-# Get 5 recent viewed travel deals
+# Get 5 recent viewed travel deals function
 def get_recent_deals():
     deals = (
         TravelDeal.query.filter(TravelDeal.last_viewed_at.isnot(None))
@@ -242,11 +242,12 @@ def get_recent_deals():
     }, 200
 
 
-# Update a travel deal
+# Update a travel deal function
 def update_deal(deal_id, data):
     travel_deal = TravelDeal.query.get(deal_id)
 
     if not travel_deal:
+        logger.warning(f"Update failed: Travel deal not found (ID: {deal_id})")
         return {
             "success": False,
             "message": "Travel deal not found",
@@ -255,6 +256,7 @@ def update_deal(deal_id, data):
     errors = validate_travel_deal(data)
 
     if errors:
+        logger.warning(f"Update failed: Validation errors for ID {deal_id}: {errors}")
         return {
             "success": False,
             "message": "Validation failed",
@@ -274,4 +276,27 @@ def update_deal(deal_id, data):
         "success": True,
         "message": "Travel deal updated successfully",
         "data": travel_deal.to_dict(),
+    }, 200
+
+
+# Delete a travel deal function
+def delete_deal(deal_id):
+    travel_deal = TravelDeal.query.get(deal_id)
+
+    if not travel_deal:
+        logger.warning(f"Attempted to delete non-existent travel deal: {deal_id}")
+        return {
+            "success": False,
+            "message": "Travel deal not found",
+        }, 404
+
+    db.session.delete(travel_deal)
+
+    db.session.commit()
+
+    logger.info(f"Travel deal deleted: {deal_id}")
+
+    return {
+        "success": True,
+        "message": "Travel deal deleted successfully",
     }, 200
