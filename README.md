@@ -2,9 +2,9 @@
 
 ## Overview
 
-Travel Deal Management API is a RESTful backend application built with Flask that allows users to create, search, filter, sort, and retrieve travel deals.
+Travel Deal Management API is a RESTful backend application built with Flask that allows users to create, update, delete, search, filter, sort, and retrieve travel deals.
 
-The application follows a modular architecture with separate layers for routes, services, validation, logging, and database operations.
+The application follows a modular architecture with separate layers for routes, services, validation, logging, statistics tracking, and database operations.
 
 ---
 
@@ -60,7 +60,7 @@ Create a `.env` file in the project root.
 
 ```env
 SECRET_KEY=your-secret-key
-DATABASE_URL=sqlite:///your_db_name.db
+DATABASE_URL=sqlite:///travel_deals.db
 ```
 
 ### Run Application
@@ -79,79 +79,38 @@ http://127.0.0.1:5000
 
 ## Postman Collection
 
-The Postman collection for testing all API endpoints is included in the repository.
-
-### Collection File
+Collection File:
 
 https://github.com/sabbirhosen44/Travel-Deal-Management-System/blob/main/postman/Travel%20Deal%20Management%20API.postman_collection.json
-
-### Import into Postman
-
-1. Open Postman.
-2. Click **Import**.
-3. Select **Upload Files**.
-4. Choose the downloaded collection file.
-5. Import and start testing the APIs.
 
 ---
 
 ## API Endpoints
 
-### Create Travel Deal
-
-**POST** `/deals`
-
-### Get All Travel Deals
-
-**GET** `/deals`
-
-### Get Single Travel Deal
-
-**GET** `/deals/<id>`
-
-### Search Travel Deals
-
-**GET** `/deals/search`
-
-Example:
-
-```http
-/deals/search?destination=dubai
-```
-
-### Filter Travel Deals
-
-**GET** `/deals/filter`
-
-Example:
-
-```http
-/deals/filter?min_price=1000&max_price=5000
-```
-
-### Sort Travel Deals
-
-**GET** `/deals/sort`
-
-Example:
-
-```http
-/deals/sort?sort_by=price&order=asc
-```
-
-### Recently Viewed Deals
-
-**GET** `/deals/recent`
+| Method | Endpoint         | Description                   |
+| ------ | ---------------- | ----------------------------- |
+| POST   | `/deals`         | Create a travel deal          |
+| GET    | `/deals`         | Get all travel deals          |
+| GET    | `/deals/<id>`    | Get a single travel deal      |
+| PUT    | `/deals/<id>`    | Update a travel deal          |
+| DELETE | `/deals/<id>`    | Delete a travel deal          |
+| GET    | `/deals/search`  | Search travel deals           |
+| GET    | `/deals/filter`  | Filter travel deals by budget |
+| GET    | `/deals/sort`    | Sort travel deals by price    |
+| GET    | `/deals/recent`  | Recently viewed deals         |
+| GET    | `/deals/popular` | Most viewed deals             |
+| GET    | `/stats`         | API usage statistics          |
 
 ---
 
 ## Validation Rules
 
-### Travel Deal Validation
-
 - destination cannot be empty
+
 - price must be positive
+
 - rating must be between 1 and 5
+
 - travel_type must be one of:
 
   - Budget
@@ -159,21 +118,16 @@ Example:
   - Adventure
   - Family
 
-### Search Validation
-
-- At least one search parameter is required
-- travel_type must be valid
-
-### Filter Validation
-
 - min_price must be a number
+
 - max_price must be a number
+
 - min_price cannot be negative
+
 - max_price cannot be smaller than min_price
 
-### Sort Validation
-
 - sort_by must be `price`
+
 - order must be `asc` or `desc`
 
 ---
@@ -189,10 +143,23 @@ logs/app.log
 Tracked events:
 
 - Successful operations
-- Search requests
+- Failed operations
 - Invalid requests
+- Search activities
+- Deal view activities
+
+---
+
+## Statistics Tracking
+
+The application tracks:
+
+- Total API requests
+- Successful requests
 - Failed requests
-- Recently viewed deal activities
+- Most searched destination
+- Most viewed deal
+- Deal view count
 
 ---
 
@@ -205,10 +172,12 @@ Travel-Deal-Management-System/
 ├── routes/
 │   └── deal_routes.py
 ├── services/
-│   └── deal_service.py
+│   ├── deal_service.py
+│   └── stat_service.py
 ├── utils/
 │   ├── validators.py
-│   └── logger.py
+│   ├── logger.py
+│   └── statistics.py
 ├── database/
 │   ├── db.py
 │   └── models.py

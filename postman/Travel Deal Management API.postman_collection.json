@@ -14,7 +14,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"destination\": \"Costa Rica\",\n    \"price\": 2100.00,\n    \"platform\": \"AdventureHub\",\n    \"rating\": 5,\n    \"travel_type\": \"Adventure\"\n}",
+					"raw": "{\n  \"destination\": \"   \",\n  \"price\": 500,\n  \"platform\": \"Skyscanner\",\n  \"rating\": 4.0,\n  \"travel_type\": \"Budget\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -84,7 +84,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/deals/6",
+					"raw": "http://localhost:5000/deals/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -92,7 +92,7 @@
 					"port": "5000",
 					"path": [
 						"deals",
-						"6"
+						"1"
 					]
 				}
 			},
@@ -116,7 +116,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/deals/search",
+					"raw": "http://localhost:5000/deals/search?destination=Paris",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -134,8 +134,7 @@
 						},
 						{
 							"key": "destination",
-							"value": "Bali",
-							"disabled": true
+							"value": "Paris"
 						},
 						{
 							"key": "platform",
@@ -239,7 +238,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:5000/deals/sort?sort_by=price",
+					"raw": "http://localhost:5000/deals/sort?sort_by=price&order=desc",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -256,8 +255,7 @@
 						},
 						{
 							"key": "order",
-							"value": "desc",
-							"disabled": true
+							"value": "desc"
 						}
 					]
 				}
@@ -285,6 +283,136 @@
 					"port": "5000",
 					"path": [
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Travel Deal",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"destination\": \"Bali, Indonesia\",\n  \"price\": 500.00,\n  \"platform\": \"Skyscanner\",\n  \"rating\": 4.6,\n  \"travel_type\": \"Budget\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/deals/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Travel Deal",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Paris Updated\",\n    \"price\": 600.00,\n    \"platform\": \"Expedia\",\n    \"rating\": 5,\n    \"travel_type\": \"Luxury\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/deals/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Popular Deals",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Paris\",\n    \"price\": 6000.00,\n    \"platform\": \"Expedia\",\n    \"rating\": 5,\n    \"travel_type\": \"Luxury\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/deals/popular",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"deals",
+						"popular"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get API Stats",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"destination\": \"Paris\",\n    \"price\": 6000.00,\n    \"platform\": \"Expedia\",\n    \"rating\": 5,\n    \"travel_type\": \"Luxury\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/stats",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"stats"
 					]
 				}
 			},
