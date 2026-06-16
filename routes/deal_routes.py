@@ -9,6 +9,7 @@ from services.deal_service import (
     filter_travel_deals,
     sort_travel_deals,
     get_recent_deals,
+    update_deal,
 )
 
 deal_bp = Blueprint("deal_bp", __name__)
@@ -89,5 +90,18 @@ def sort_deals():
 )
 def recent_deals():
     response, status = get_recent_deals()
+
+    return jsonify(response), status
+
+
+# Update a travel deal
+@deal_bp.route("/deals/<int:deal_id>", methods=["PUT"])
+def update_travel_deal(deal_id):
+    data = request.get_json()
+
+    response, status = update_deal(
+        deal_id,
+        data,
+    )
 
     return jsonify(response), status

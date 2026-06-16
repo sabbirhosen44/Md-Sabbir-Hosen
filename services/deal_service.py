@@ -240,3 +240,38 @@ def get_recent_deals():
             "travel_deals": [deal.to_dict() for deal in deals],
         },
     }, 200
+
+
+# Update a travel deal
+def update_deal(deal_id, data):
+    travel_deal = TravelDeal.query.get(deal_id)
+
+    if not travel_deal:
+        return {
+            "success": False,
+            "message": "Travel deal not found",
+        }, 404
+
+    errors = validate_travel_deal(data)
+
+    if errors:
+        return {
+            "success": False,
+            "message": "Validation failed",
+        }, 400
+
+    travel_deal.destination = data["destination"]
+    travel_deal.price = data["price"]
+    travel_deal.platform = data["platform"]
+    travel_deal.rating = data["rating"]
+    travel_deal.travel_type = data["travel_type"]
+
+    db.session.commit()
+
+    logger.info(f"Travel deal updated: {deal_id}")
+
+    return {
+        "success": True,
+        "message": "Travel deal updated successfully",
+        "data": travel_deal.to_dict(),
+    }, 200
