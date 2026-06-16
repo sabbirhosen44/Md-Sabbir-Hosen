@@ -14,6 +14,7 @@ class TravelDeal(db.Model):
     platform = db.Column(db.String(100), nullable=False)
     rating = db.Column(db.Float, nullable=False)
     travel_type = db.Column(db.String(50), nullable=False)
+    view_count = db.Column(db.Integer, default=0)
     last_viewed_at = db.Column(db.DateTime, nullable=True)
 
     # to_dict() for JSON serialization.
@@ -25,6 +26,7 @@ class TravelDeal(db.Model):
             "platform": self.platform,
             "rating": self.rating,
             "travel_type": self.travel_type,
+            "view_count": self.view_count,
             "last_viewed_at": (
                 self.last_viewed_at.isoformat() if self.last_viewed_at else None
             ),

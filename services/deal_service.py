@@ -60,6 +60,8 @@ def get_single_deal(deal_id):
 
     travel_deal.last_viewed_at = datetime.utcnow()
 
+    travel_deal.view_count += 1
+
     db.session.commit()
 
     logger.info(f"Viewed travel deal: {deal_id}")
@@ -233,3 +235,14 @@ def delete_deal(deal_id):
     logger.info(f"Travel deal deleted: {deal_id}")
 
     return api_response(True, "Travel deal deleted successfully", None, 200)
+
+
+# Get popular travel deals function
+def get_popular_deals():
+    deals = TravelDeal.query.order_by(TravelDeal.view_count.desc()).all()
+
+    logger.info("Retrieved popular travel deals")
+
+    return api_response(
+        True, "Popular deals retrieved successfully", serialize_collection(deals), 200
+    )

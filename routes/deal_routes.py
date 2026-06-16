@@ -11,6 +11,7 @@ from services.deal_service import (
     get_recent_deals,
     update_deal,
     delete_deal,
+    get_popular_deals,
 )
 
 deal_bp = Blueprint("deal_bp", __name__)
@@ -112,5 +113,13 @@ def update_travel_deal(deal_id):
 @deal_bp.route("/deals/<int:deal_id>", methods=["DELETE"])
 def remove_deal(deal_id):
     response, status = delete_deal(deal_id)
+
+    return jsonify(response), status
+
+
+# Most popular travel deal route
+@deal_bp.route("/deals/popular", methods=["GET"])
+def popular_deals():
+    response, status = get_popular_deals()
 
     return jsonify(response), status
