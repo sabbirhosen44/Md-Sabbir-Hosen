@@ -10,6 +10,7 @@ from utils.validators import (
 from utils.logger import logger
 from datetime import datetime
 from utils.response import api_response, serialize_collection
+from utils.statistics import track_destination_search
 
 
 # Create a travel deal function
@@ -107,6 +108,9 @@ def search_travel_deals(destination, platform, travel_type):
             False, f"travel_type must be one of {TRAVEL_TYPES}", None, 400
         )
 
+    if destination:
+        track_destination_search(destination)
+
     deals = build_search_query(
         destination,
         platform,
@@ -203,7 +207,7 @@ def update_deal(deal_id, data):
 
     if errors:
         logger.warning(f"Update failed: Validation errors for ID {deal_id}: {errors}")
-        return api_response(False, "Validation failed", None, 400)
+        return api_response(False, "Validation failed", {"errors": errors}, 400)
 
     travel_deal.destination = data["destination"]
     travel_deal.price = data["price"]

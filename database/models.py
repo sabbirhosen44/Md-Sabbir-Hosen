@@ -31,3 +31,25 @@ class TravelDeal(db.Model):
                 self.last_viewed_at.isoformat() if self.last_viewed_at else None
             ),
         }
+
+
+class SearchHistory(db.Model):
+    __tablename__ = "search_history"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    destination = db.Column(db.String(100), unique=True, nullable=False)
+
+    search_count = db.Column(db.Integer, default=0)
+
+
+class ApiStatistic(db.Model):
+    __tablename__ = "api_statistics"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    total_requests = db.Column(db.Integer, default=0)
+
+    successful_requests = db.Column(db.Integer, default=0)
+
+    failed_requests = db.Column(db.Integer, default=0)

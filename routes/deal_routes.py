@@ -13,6 +13,7 @@ from services.deal_service import (
     delete_deal,
     get_popular_deals,
 )
+from services.stat_service import get_api_statistics
 
 deal_bp = Blueprint("deal_bp", __name__)
 
@@ -121,5 +122,13 @@ def remove_deal(deal_id):
 @deal_bp.route("/deals/popular", methods=["GET"])
 def popular_deals():
     response, status = get_popular_deals()
+
+    return jsonify(response), status
+
+
+# API statistics route
+@deal_bp.route("/stats", methods=["GET"])
+def stats():
+    response, status = get_api_statistics()
 
     return jsonify(response), status
