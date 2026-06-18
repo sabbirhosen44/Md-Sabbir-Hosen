@@ -23,9 +23,9 @@ The application follows a modular architecture with separate layers for routes, 
 ### Clone Repository
 
 ```bash
-git clone https://github.com/sabbirhosen44/Travel-Deal-Management-System.git
+git clone https://github.com/sabbirhosen44/Md-Sabbir-Hosen.git
 
-cd Travel-Deal-Management-System
+cd Md-Sabbir-Hosen
 ```
 
 ### Create Virtual Environment
